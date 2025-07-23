@@ -1,3 +1,10 @@
+; --------- import --------
+extern strcmp
+
+
+
+; -------------------------
+
 section .bss
 	input_buffer resb 100		; read버퍼
 
@@ -27,10 +34,18 @@ section .data
 			
 			  db 0x1B, "[32m", "힌트: 이는 명령 스크립트를 만드는데 유용합니다.", 0x1B, "[0m", 0xA
 
+
+	; ------------ 명령 리스트 ------------
+	cmd_list dd cmd0, cmd1
+
+	; ------------ 설명 텍스트 길이 ------------
+	cmd0_desc_len equ $ - cmd0_desc_len
+	cmd1_desc_len equ $ - cmd1_desc_len
+
+
 ; +-------------- TODO ---------------+
-; 1. 명령집합 문자열 길이 저장
-; 2. 명령 라벨 정의
-; 3. 명령어 이동,
+; 1. 명령 라벨 정의
+; 2. 명령어 이동,
 ; 그외에는 나중에 생각하죠 :)
 		
 
@@ -49,12 +64,19 @@ init: ; 이 라벨은 처음 들어갔을때 메시지를 출력함
 	ret
 
 
-_start: ; 진입점
-	call init
-
+exit:
 	mov rax, 60
 	xor rdi, rdi
 	syscall
+	
+
+
+_start: ; 진입점
+	call init
+	call main_loop
+
+
+	
 
 
 
@@ -69,11 +91,9 @@ main_loop:
 
 	mov r8, rax
 
+	
+
 	jmp main_loop
 
 
-cmds:
-	.cmd0:
-		mov rax, 1
-		mov rdi, 1
-		mov rsi, 	
+
