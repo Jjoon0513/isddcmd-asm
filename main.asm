@@ -1,8 +1,6 @@
 ; --------- import --------
 extern strcmp
 
-
-
 ; -------------------------
 
 section .bss
