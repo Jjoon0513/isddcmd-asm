@@ -59,7 +59,7 @@ init: ; 이 라벨은 처음 들어갔을때 메시지를 출력함
 	mov rdx, welcomemsg_len
 	syscall
 
-	ret
+	jmp main_loop
 
 
 exit:
@@ -69,9 +69,8 @@ exit:
 	
 
 
-_start: ; 진입점
+_start:
 	call init
-	call main_loop
 
 
 	
