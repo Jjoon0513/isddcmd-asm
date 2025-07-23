@@ -1,0 +1,36 @@
+name: 어셈블리 빌드
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.asm'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.asm'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 레포 췍
+        uses: actions/checkout@v4
+
+      - name: NASM 설치
+        run: sudo apt-get update && sudo apt-get install -y nasm
+
+      - name: 이제 어셈블 조지고
+        run: | 
+          nasm -f elf64 main.asm -o main.o
+          nasm -f elf64 strcmp.asm -o strcmp.o
+
+      - name: 링크 해주고
+        run: ld main.o strcmp.o -o ISDDCMD
+
+      - name: 업로드하긔
+        uses: actions/upload-artifact@v4
+        with:
+          name: x86_64-binary
+          path: ISDDCMD
