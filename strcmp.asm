@@ -1,16 +1,17 @@
-global starcmp
+global strcmp
 
 strcmp:
         push rdi
         push rsi
+        mov rcx, 100
 
 strcmp_loop:
         mov al, [rdi]
         mov bl, [rsi]
         cmp al, bl
         jne strcmp_diff       ; 다르면 종료
-        cmp al, 0             ; 널 문자면 종료
-        je strcmp_equal
+        dec rcx          ; 널 문자면 종료
+        jz strcmp_equal
         inc rdi
         inc rsi
         jmp strcmp_loop
