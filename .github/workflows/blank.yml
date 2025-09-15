@@ -21,13 +21,13 @@ jobs:
       - name: NASM 설치
         run: sudo apt-get update && sudo apt-get install -y nasm
 
-      - name: 이제 어셈블 조지고
-        run: | 
-          nasm -f elf64 main.asm -o main.o
-          nasm -f elf64 strcmp.asm -o strcmp.o
+      - name: 어셈블 전부 조지기
+        run: |
+          find . -name '*.asm' -exec sh -c 'for f; do nasm -f elf64 "$f" -o "${f%.asm}.o"; done' sh {} +
 
-      - name: 링크 해주고
-        run: ld main.o strcmp.o -o ISDDCMD
+      - name: 링크
+        run: ld $(find . -name '*.o') -o ISDDCMD
+
 
       - name: 업로드하긔
         uses: actions/upload-artifact@v4
