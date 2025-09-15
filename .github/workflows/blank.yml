@@ -21,12 +21,15 @@ jobs:
       - name: NASM 설치
         run: sudo apt-get update && sudo apt-get install -y nasm
 
-      - name: 어셈블 전부 조지기
+      - name: 이제 어셈블 조지고
         run: |
-          find . -name '*.asm' -exec sh -c 'for f; do nasm -f elf64 "$f" -o "${f%.asm}.o"; done' sh {} +
+          for f in *.asm; do
+             nasm -f elf64 "$f" -o "${f%.asm}.o"
+          done
 
-      - name: 링크
-        run: ld $(find . -name '*.o') -o ISDDCMD
+      - name: 링크 해주고
+        run: ld *.o -o ISDDCMD
+
 
 
       - name: 업로드하긔
